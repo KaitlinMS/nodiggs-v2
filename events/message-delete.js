@@ -1,0 +1,1 @@
+// TODO: if message was deleted in the proposals channel, then remove that proposal from the list
