@@ -6,6 +6,7 @@ const { token } = require('./config.json');
 // Create a new client instance
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
+// Set up all the commands
 client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
@@ -16,11 +17,19 @@ for (const file of commandFiles) {
     client.commands.set(command.data.name, command);
 }
 
-// When the client is ready, run this code (only once)
-client.once('ready', () => {
-    console.log('Ready!');
-});
+// Set up all the events
+const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 
+for (const file of eventFiles) {
+    const event = require(`./events/${file}`);
+    if (event.once) {
+        client.once(event.name, (...args) => event.execute(...args));
+    } else {
+        client.on(event.name, (...args) => event.execute(...args));
+    }
+}
+
+// Wait and react to a command that comes in
 client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return;
 
