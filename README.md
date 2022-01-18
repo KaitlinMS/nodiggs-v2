@@ -2,7 +2,7 @@
 A JS rewrite of our movie night bot.
 
 # Running the bot locally
-You'll need JavaScript and Node set up on your machine. Running npm install while in the code's directory will install all the dependencies.
+You'll need JavaScript and Node set up on your machine. Running `npm install` while in the code's directory will install all the dependencies.
 
 From there, you can run the bot locally using: `node bot.js`
 
