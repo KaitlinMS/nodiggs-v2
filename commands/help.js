@@ -1,1 +1,0 @@
-// TODO: set up the help command
