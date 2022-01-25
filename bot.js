@@ -12,16 +12,14 @@ client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
-    console.log(file);
-    console.log(`./commands/${file}`)
     const command = require(`./commands/${file}`);
-    console.log(command.data);
+
     // Set a new item in the Collection
     // With the key as the command name and the value as the exported module
     client.commands.set(command.data.name, command);
 }
 
-// Set up all the events
+// Set up all the events and react to them
 const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 
 for (const file of eventFiles) {
@@ -33,7 +31,7 @@ for (const file of eventFiles) {
     }
 }
 
-// Wait and react to a command that comes in
+// React to a slash command that comes in
 client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return;
 

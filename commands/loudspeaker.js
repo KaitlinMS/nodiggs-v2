@@ -1,7 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { generalID } = require('../config.json');
-
-// TODO: Should only be usable by lieutenants.
+const { generalID, lieutenantID } = require('../config.json');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -12,11 +10,17 @@ module.exports = {
                 .setDescription('What would you like NoDiggs to say?')
                 .setRequired(true)),
     async execute(interaction) {
-        const generalChannel = interaction.guild.channels.cache.get(generalID);
-        const message = interaction.options.getString('message');
+        const lieutenantRole = interaction.member.roles.cache.has(lieutenantID);
 
-        await interaction.reply({ content: 'Sending your message now!', ephemeral: true})
-            .then(generalChannel.send(message))
-            .catch(console.error);
+        if (!lieutenantRole) {
+            await interaction.reply({ content: "Sorry, you don't have permission to use that command.", ephemeral: true})
+        } else {
+            const generalChannel = interaction.guild.channels.cache.get(generalID);
+            const message = interaction.options.getString('message');
+
+            await interaction.reply({ content: 'Sending your message now!', ephemeral: true})
+                .then(generalChannel.send(message))
+                .catch(console.error);
+        }
     },
 };
