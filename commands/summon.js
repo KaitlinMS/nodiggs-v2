@@ -1,7 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { generalID } = require('../config.json');
-
-// TODO: Should only be usable by lieutenants
+const { generalID, lieutenantID, submissionsID, introID } = require('../config.json');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -11,17 +9,26 @@ module.exports = {
             option.setName('name')
                 .setDescription('The name of the channel')
                 .setRequired(true)),
-    // TODO: make sure channel names have spaces replaced with dashes
-    async execute(interaction) {
-        const generalChannel = interaction.guild.channels.fetch(generalID);
-        console.log(generalChannel);
 
-        const channelName = interaction.options.getString('name');
-            interaction.guild.channels.create(channelName, { reason: 'New channel for movie night voting.' })
+    async execute(interaction) {
+        const lieutenantRole = interaction.member.roles.cache.has(lieutenantID);
+
+        if (!lieutenantRole) {
+            await interaction.reply({ content: "Sorry, you don't have permission to use that command.", ephemeral: true})
+
+        } else {
+            const category = interaction.guild.channels.cache.get(submissionsID);
+            const generalChannel = interaction.guild.channels.cache.get(generalID);
+            let channelName = interaction.options.getString('name');
+            channelName = channelName.replace(/\s/g, '-');
+
+            interaction.guild.channels.create(channelName, { reason: 'New channel for movie night voting.', topic: 'Submit your movies here!', parent: category })
                 .then(await interaction.reply({ content: `Successfully created ${channelName}!`, ephemeral: true }))
-                .then(await generalChannel.send(`>>----- 🦂 it's movie night!! 🦂 -----<<\nsubmit movies in ${channelName}!\nsee {0.mention} for literature on The System™️`))
                 .catch(console.error);
 
-            // TODO: Announce the new channel. This currently isn't working.
+            const newChannel = interaction.guild.channels.cache.find(channel => channel.name === channelName);
+
+            await generalChannel.send(`>>----- 🦂 it's movie night!! 🦂 -----<<\nsubmit movies in ${newChannel}!\nsee <#${introID}> for literature on The System™`);
+        }
     },
 };
