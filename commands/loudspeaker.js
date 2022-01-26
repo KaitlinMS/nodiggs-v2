@@ -1,6 +1,27 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { generalID, lieutenantID } = require('../config.json');
 
+const botSay = (message) => {
+    const botBlorps = [
+        '***bzzt***',
+        '***bzzzzzt***',
+        '***beep***',
+        '***bleep***',
+        '***blorp***',
+        '***bleep blorp***',
+        '***whistle pop***',
+        '***meep***',
+        '***morp***',
+        '***meep morp***',
+        '***beep beep***',
+        '***boop***',
+        '***bip bip***'];
+
+    randomIndex = Math.floor(Math.random() * botBlorps.length);
+
+    return botBlorps[randomIndex] + '... ' + message;
+}
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('loudspeaker')
@@ -19,7 +40,7 @@ module.exports = {
             const message = interaction.options.getString('message');
 
             await interaction.reply({ content: 'Sending your message now!', ephemeral: true})
-                .then(generalChannel.send(message))
+                .then(generalChannel.send(botSay(message)))
                 .catch(console.error);
         }
     },
