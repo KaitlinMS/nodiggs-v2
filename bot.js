@@ -16,7 +16,19 @@ const sequelize = new Sequelize('database', 'user', 'password', {
     storage: 'database.sqlite',
 });
 
+// Set up the proposal table
+const Proposal = sequelize.define('proposal', {
+ //
+});
 
+// Set up the vote table
+const Vote = sequelize.define('vote', {
+    //
+});
+
+// Set
+Proposal.hasMany(Vote);
+Vote.belongsTo(Proposal);
 
 // Set up all the commands
 client.commands = new Collection();
