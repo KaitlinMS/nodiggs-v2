@@ -1,11 +1,22 @@
-// Require the necessary discord.js classes
 const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const { token } = require('./config.json');
+const Sequelize = require('sequelize');
 
 // Create a new client instance
 // Intents give the bot permissions to perform certain actions, or tell it to listen for certain events
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGE_REACTIONS, Intents.FLAGS.GUILDS] });
+
+// Set up the connection to the database
+const sequelize = new Sequelize('database', 'user', 'password', {
+    host: 'localhost',
+    dialect: 'sqlite',
+    logging: false,
+    // SQLite only
+    storage: 'database.sqlite',
+});
+
+
 
 // Set up all the commands
 client.commands = new Collection();
@@ -47,6 +58,11 @@ client.on('interactionCreate', async interaction => {
     }
 
 });
+
+// // Store all reactions that come in
+// client.on('messageReactionAdd', (reaction, user) => {
+//     // For now, we only care about the reactions that happen in the proposals channel
+// });
 
 // Login to Discord with your client's token
 client.login(token);
