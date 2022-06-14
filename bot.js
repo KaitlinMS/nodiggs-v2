@@ -26,7 +26,7 @@ const Vote = sequelize.define('vote', {
     //
 });
 
-// Set
+// Set up the
 Proposal.hasMany(Vote);
 Vote.belongsTo(Proposal);
 
