@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { generalID, lieutenantID, submissionsID, introID } = require('../config.json');
+const { generalID, lieutenantID, submissionsCategoryID, introID } = require('../config.json');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -17,7 +17,7 @@ module.exports = {
             await interaction.reply({ content: "Sorry, you don't have permission to use that command.", ephemeral: true})
 
         } else {
-            const category = interaction.guild.channels.cache.get(submissionsID);
+            const category = interaction.guild.channels.cache.get(submissionsCategoryID);
             const generalChannel = interaction.guild.channels.cache.get(generalID);
             let channelName = interaction.options.getString('name');
             channelName = channelName.replace(/\s/g, '-');
