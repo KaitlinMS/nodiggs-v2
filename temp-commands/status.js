@@ -6,9 +6,10 @@ const populateProposedMoviesList = (interaction) => {
     const submissionsChannel = interaction.guild.channels.cache.get(submissionsCategoryID).children.first();
 
     // get all messages in the proposals channel
+    /*
     submissionsChannel.messages.fetch({ limit: 100 }).then(proposals => {
         console.log(`Received ${proposals.size} messages`);
-        
+
         // iterate through all messages in the channel
         proposals.forEach(message => {
             console.log(message.content);
@@ -16,6 +17,7 @@ const populateProposedMoviesList = (interaction) => {
             message.reactions.
         })
     })
+    */
     
     // for each message:
     // for each reaction:
