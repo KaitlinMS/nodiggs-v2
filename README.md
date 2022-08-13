@@ -10,3 +10,6 @@ You'll need a `config.json` file in this directory where you can add the bot's t
 
 # Setting Up the Database
 On the first run, you'll need to initialize the database using `node dbInit.js --force`. Note that this will completely destroy any existing database and rebuild it.
+
+# Adding New Commands
+After adding a new command, you'll need to run `node deploy-commands.js`. This registers the commands with Discord. Be sure to restart the bot if it was already running. Commands are typically available immediately after restarting the bot.

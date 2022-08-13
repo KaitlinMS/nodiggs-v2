@@ -1,8 +1,6 @@
 const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const { token } = require('./config.json');
-const Sequelize = require('sequelize');
-const Proposals = require('./dbObjects.js');
 
 // Create a new client instance
 // Intents give the bot permissions to perform certain actions, or tell it to listen for certain events
@@ -55,5 +53,5 @@ client.once('ready', () => {
     console.log(`Ready! Logged in as ${client.user.tag}!`);
 });
 
-// Login to Discord with your client's token
+// Login to Discord
 client.login(token);
