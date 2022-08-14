@@ -1,4 +1,4 @@
-// NOTE: you can run 'node dbInit.js --force' to create fresh tables
+// NOTE: you can run 'node db-init.js --force' to create fresh tables
 
 const Sequelize = require('sequelize');
 

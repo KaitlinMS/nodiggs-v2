@@ -55,6 +55,7 @@ client.on('interactionCreate', async interaction => {
 
 // Once we're logged in...
 client.once('ready', () => {
+    // TODO: Should we just destroy and backfill the DB every time the bot starts?
     // Let us know it went well!
     console.log(`Ready! Logged in as ${client.user.tag}!`);
 });
