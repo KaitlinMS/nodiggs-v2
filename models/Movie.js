@@ -1,8 +1,8 @@
 module.exports = (sequelize, DataTypes) => {
-    return sequelize.define('users', {
-        user_id: {
+    return sequelize.define('Movie', {
+        movieName: {
             type: DataTypes.STRING,
-            primaryKey: true
+            allowNull: false
         }
     });
 };

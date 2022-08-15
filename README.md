@@ -13,3 +13,10 @@ On the first run, you'll need to initialize the database using `node db-init.js 
 
 # Adding New Commands
 After adding a new command, you'll need to run `node deploy-commands.js`. This registers the commands with Discord. Be sure to restart the bot if it was already running. Commands are typically available immediately after restarting the bot.
+
+# Using nodemon
+Nodemon is super helpful and highly recommended! It will automatically restart the bot every time you make a change to the code.
+
+To install, run `npm install -g nodemon`. Note that this will install it globally, meaning it'll be available for all of your projects.
+
+Once it's installed, you can then run the bot with this command: `nodemon bot.js`.

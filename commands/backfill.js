@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { lieutenantID } = require('../config.json');
+const { Movies, Proposals, Users } = require('../db-objects.js');
 
 async function getChannels(old_vote_categories) {
     let channels = [];
@@ -39,24 +40,48 @@ module.exports = {
 
             let old_vote_categories = categories.filter(category => category.name.includes('Old'));
 
-            console.log('CATEGORIES:');
-            old_vote_categories.forEach(category => console.log(category.name));
-
             let channels = await getChannels(old_vote_categories);
-            console.log('CHANNELS:');
-            channels.forEach(channel => console.log(channel.name));
-
 
             // Get all the messages from the channels we just got
             let allMessages = [];
 
-            console.log('START');
             for(let i = 0; i < channels.length; i++) {
                 let channelMessages = await getMessagesFromChannel(channels[i]);
 
                 channelMessages.forEach(message => {
                     allMessages.push(message);
-                })
+                });
+            }
+
+            // Start extracting the data from the messages we got
+            // TODO: Set the created_at date to be the date of the message
+            for(let i = 0; i < allMessages.length; i++) {
+                let movie_name = allMessages[i].content;
+                let proposer = allMessages[i].author.username + '#' + allMessages[i].author.discriminator;
+
+                let [movie, mCreated] = await Movies.findOrCreate({
+                    where: {
+                        movie_name: movie_name
+                    }
+                });
+
+                let [user, uCreated] = await Users.findOrCreate({
+                    where: {
+                        user_id: proposer
+                    }
+                });
+
+                console.log(user.user_id);
+                console.log(movie.movie_id);
+
+                console.log('STARTING PROPOSAL');
+                await Proposals.create({
+                    where: {
+                        user_id: user.user_id,
+                        movie_id: movie.movie_id
+                    }
+                });
+                console.log('ENDING PROPOSAL');
             }
         }
     }

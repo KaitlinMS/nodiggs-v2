@@ -7,16 +7,16 @@ const sequelize = new Sequelize('database', 'username', 'password', {
     storage: 'database.sqlite'
 });
 
-const Users = require('./models/Users.js')(sequelize, Sequelize.DataTypes);
-const Movies = require('./models/Movies.js')(sequelize, Sequelize.DataTypes);
-const Proposals = require('./models/Proposals.js')(sequelize, Sequelize.DataTypes);
-const Votes = require('./models/Votes.js')(sequelize, Sequelize.DataTypes);
+const User = require('./models/User.js')(sequelize, Sequelize.DataTypes);
+const Movie = require('./models/Movie.js')(sequelize, Sequelize.DataTypes);
+const Proposal = require('./models/Proposal.js')(sequelize, Sequelize.DataTypes);
+const Vote = require('./models/Vote.js')(sequelize, Sequelize.DataTypes);
 
 // Set up associations
-Proposals.belongsTo(Users, { foreignKey: 'user_id', as: 'user' });
-Proposals.belongsTo(Movies, { foreignKey: 'movie_id', as: 'movie' });
-Votes.belongsTo(Proposals, { foreignKey: 'proposal_id', as: 'proposal' });
-Votes.belongsTo(Users, { foreignKey: 'user_id', as: 'user' });
+User.hasMany(Proposal);
+Proposal.belongsTo(User);
+User.hasMany(Vote);
+Vote.belongsTo(User);
 
 // Helpers
 // get all proposals for a movie
@@ -24,4 +24,4 @@ Votes.belongsTo(Users, { foreignKey: 'user_id', as: 'user' });
 // get user's join date
 // get all votes from a user
 
-module.exports = { Users, Movies, Proposals, Votes };
+module.exports = { Users: User, Movies: Movie, Proposals: Proposal, Votes: Vote };
