@@ -67,7 +67,7 @@ module.exports = {
 
                 let [user, uCreated] = await Users.findOrCreate({
                     where: {
-                        userId: proposer
+                        userName: proposer
                     }
                 });
 
