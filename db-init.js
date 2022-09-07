@@ -6,13 +6,13 @@ const sequelize = new Sequelize('database', 'username', 'password', {
     host: 'localhost',
     dialect: 'sqlite',
     logging: console.log,
-    storage: 'database.sqlite'
+    storage: 'OLD_database.sqlite'
 });
 
-require('./models/User.js')(sequelize, Sequelize.DataTypes);
-require('./models/Movie.js')(sequelize, Sequelize.DataTypes);
-require('./models/Proposal.js')(sequelize, Sequelize.DataTypes);
-require('./models/Vote.js')(sequelize, Sequelize.DataTypes);
+require('./OLD_models/User.js')(sequelize, Sequelize.DataTypes);
+require('./OLD_models/Movie.js')(sequelize, Sequelize.DataTypes);
+require('./OLD_models/Proposal.js')(sequelize, Sequelize.DataTypes);
+require('./OLD_models/Vote.js')(sequelize, Sequelize.DataTypes);
 
 const force = process.argv.includes('--force') || process.argv.includes('-f');
 

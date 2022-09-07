@@ -4,13 +4,13 @@ const sequelize = new Sequelize('database', 'username', 'password', {
     host: 'localhost',
     dialect: 'sqlite',
     logging: false,
-    storage: 'database.sqlite'
+    storage: 'OLD_database.sqlite'
 });
 
-const User = require('./models/User.js')(sequelize, Sequelize.DataTypes);
-const Movie = require('./models/Movie.js')(sequelize, Sequelize.DataTypes);
-const Proposal = require('./models/Proposal.js')(sequelize, Sequelize.DataTypes);
-const Vote = require('./models/Vote.js')(sequelize, Sequelize.DataTypes);
+const User = require('./OLD_models/User.js')(sequelize, Sequelize.DataTypes);
+const Movie = require('./OLD_models/Movie.js')(sequelize, Sequelize.DataTypes);
+const Proposal = require('./OLD_models/Proposal.js')(sequelize, Sequelize.DataTypes);
+const Vote = require('./OLD_models/Vote.js')(sequelize, Sequelize.DataTypes);
 
 // Set up associations
 User.hasMany(Proposal);
