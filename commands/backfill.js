@@ -61,13 +61,13 @@ module.exports = {
 
                 let [movie, mCreated] = await Movies.findOrCreate({
                     where: {
-                        movie_name: movie_name
+                        movieName: movie_name
                     }
                 });
 
                 let [user, uCreated] = await Users.findOrCreate({
                     where: {
-                        user_id: proposer
+                        userId: proposer
                     }
                 });
 
@@ -77,8 +77,8 @@ module.exports = {
                 console.log('STARTING PROPOSAL');
                 await Proposals.create({
                     where: {
-                        user_id: user.user_id,
-                        movie_id: movie.movie_id
+                        userId: user.user_id,
+                        movieId: movie.movie_id
                     }
                 });
                 console.log('ENDING PROPOSAL');

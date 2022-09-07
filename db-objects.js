@@ -7,16 +7,20 @@ const sequelize = new Sequelize('database', 'username', 'password', {
     storage: 'OLD_database.sqlite'
 });
 
-const User = require('./OLD_models/User.js')(sequelize, Sequelize.DataTypes);
-const Movie = require('./OLD_models/Movie.js')(sequelize, Sequelize.DataTypes);
-const Proposal = require('./OLD_models/Proposal.js')(sequelize, Sequelize.DataTypes);
-const Vote = require('./OLD_models/Vote.js')(sequelize, Sequelize.DataTypes);
+const User = require('./models/user')(sequelize, Sequelize.DataTypes);
+const Movie = require('./models/movie')(sequelize, Sequelize.DataTypes);
+const Proposal = require('./models/proposal')(sequelize, Sequelize.DataTypes);
+const Vote = require('./models/vote')(sequelize, Sequelize.DataTypes);
 
 // Set up associations
 User.hasMany(Proposal);
 Proposal.belongsTo(User);
+Movie.hasMany(Proposal);
+Proposal.belongsTo(Movie);
 User.hasMany(Vote);
 Vote.belongsTo(User);
+Proposal.hasMany(Vote);
+Vote.belongsTo(Proposal);
 
 // Helpers
 // get all proposals for a movie
