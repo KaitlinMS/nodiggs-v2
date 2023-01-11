@@ -1,23 +1,22 @@
-// NOTE: you can run 'node db-init.js --force' to create fresh tables
+// NOTE: you can run 'node db-init.js to create fresh tables
 
-const Sequelize = require('sequelize');
+const sequelize = require('./config/database');
+const User = require('./models/user');
+const Movie = require('./models/movie');
+const Proposal = require('./models/proposal');
+const Vote = require('./models/vote');
 
-const sequelize = new Sequelize('database', 'username', 'password', {
-    host: 'localhost',
-    dialect: 'sqlite',
-    logging: console.log,
-    storage: 'OLD_database.sqlite'
-});
+// Define associations
+User.hasMany(Proposal);
+Proposal.belongsTo(User);
+User.hasMany(Vote);
+Vote.belongsTo(User);
+Movie.hasMany(Proposal);
+Proposal.belongsTo(Movie);
+Proposal.hasMany(Vote);
+Vote.belongsTo(Proposal);
 
-require('./OLD_models/User.js')(sequelize, Sequelize.DataTypes);
-require('./OLD_models/Movie.js')(sequelize, Sequelize.DataTypes);
-require('./OLD_models/Proposal.js')(sequelize, Sequelize.DataTypes);
-require('./OLD_models/Vote.js')(sequelize, Sequelize.DataTypes);
-
-const force = process.argv.includes('--force') || process.argv.includes('-f');
-
-sequelize.sync({ force }).then(async () => {
-    console.log('Database synced.');
-
-    sequelize.close();
+// Save changes to the database
+sequelize.sync({ force: true }).then(async () => {
+    console.log("All models were synchronized successfully.");
 }).catch(console.error);

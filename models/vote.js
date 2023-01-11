@@ -1,33 +1,13 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-const {Votes} = require("../db-objects");
-module.exports = (sequelize, DataTypes) => {
-  class Vote extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      Vote.belongsTo(models.User, {
-        foreignKey: 'userId',
-        onDelete: 'CASCADE'
-      });
+const sequelize = require("../config/database");
+const { DataTypes } = require("sequelize");
 
-      Vote.belongsTo(models.Proposal, {
-        foreignKey: 'proposalId',
-        onDelete: 'CASCADE'
-      })
+const Vote = sequelize.define('Vote', {
+    removed: {
+        type: DataTypes.BOOLEAN
+    },
+    isVeto: {
+        type: DataTypes.BOOLEAN
     }
-  }
-  Vote.init({
-    removed: DataTypes.BOOLEAN,
-    isVeto: DataTypes.BOOLEAN
-  }, {
-    sequelize,
-    modelName: 'Vote',
-  });
-  return Vote;
-};
+});
+
+module.exports = Vote;

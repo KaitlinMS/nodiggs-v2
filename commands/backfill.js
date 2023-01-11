@@ -1,6 +1,8 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { lieutenantID } = require('../config.json');
-const { Movies, Proposals, Users } = require('../db-objects.js');
+const Movie = require('/models/movie');
+const User = require('/models/user');
+const Proposal = require('/models/proposal');
 
 async function getChannels(old_vote_categories) {
     let channels = [];
@@ -59,29 +61,32 @@ module.exports = {
                 let movie_name = allMessages[i].content;
                 let proposer = allMessages[i].author.username + '#' + allMessages[i].author.discriminator;
 
-                let [movie, mCreated] = await Movies.findOrCreate({
+                let [movie, mCreated] = await Movie.findOrCreate({
                     where: {
                         movieName: movie_name
                     }
                 });
 
-                let [user, uCreated] = await Users.findOrCreate({
+                let [user, uCreated] = await User.findOrCreate({
                     where: {
                         userName: proposer
                     }
                 });
 
-                console.log(user.user_id);
-                console.log(movie.movie_id);
+                console.log("USER ID");
+                console.log(user.id);
+                console.log("MOVIE ID");
+                console.log(movie.id);
 
-                console.log('STARTING PROPOSAL');
-                await Proposals.create({
-                    where: {
-                        userId: user.user_id,
-                        movieId: movie.movie_id
-                    }
+                console.log("WRITING PROPOSAL RECORD");
+                let proposal = await Proposal.create({
+                    userId: user.id,
+                    movieId: movie.id,
+                    removed: false
                 });
-                console.log('ENDING PROPOSAL');
+
+                console.log(proposal.toJSON());
+                console.log();
             }
         }
     }

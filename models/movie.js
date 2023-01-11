@@ -1,26 +1,10 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-  class Movie extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      Movie.hasMany(models.Proposal, {
-        foreignKey: 'movieId',
-        onDelete: 'CASCADE'
-      })
+const sequelize = require("../config/database");
+const { DataTypes } = require("sequelize");
+
+const Movie = sequelize.define('Movie', {
+    movieName: {
+        type: DataTypes.STRING
     }
-  }
-  Movie.init({
-    movieName: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'Movie',
-  });
-  return Movie;
-};
+});
+
+module.exports = Movie;
