@@ -1,8 +1,8 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { lieutenantID } = require('../config.json');
-const Movie = require('/models/movie');
-const User = require('/models/user');
-const Proposal = require('/models/proposal');
+const Movie = require('../OLD_models/movie');
+const User = require('../OLD_models/user');
+const Proposal = require('../OLD_models/proposal');
 
 async function getChannels(old_vote_categories) {
     let channels = [];
@@ -73,16 +73,11 @@ module.exports = {
                     }
                 });
 
-                console.log("USER ID");
-                console.log(user.id);
-                console.log("MOVIE ID");
-                console.log(movie.id);
-
                 console.log("WRITING PROPOSAL RECORD");
                 let proposal = await Proposal.create({
-                    userId: user.id,
-                    movieId: movie.id,
-                    removed: false
+                    removed: false,
+                    UserId: user.id,
+                    MovieId: movie.id
                 });
 
                 console.log(proposal.toJSON());
